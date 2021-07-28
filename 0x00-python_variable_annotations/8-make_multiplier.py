@@ -13,6 +13,14 @@ def make_multiplier(multiplier: float) -> Callable[[float], float]:
     -> a function callable
     """
     def func(n: float) -> float:
+        """callable func
+
+        Args:
+        -> n number to mul
+
+        return:
+        -> the mul number
+        """
         return n * n
 
     return func
