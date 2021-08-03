@@ -8,10 +8,7 @@ wait_random = __import__('0-basic_async_syntax').wait_random
 
 async def wait_n(n: int, max_delay: int) -> List[float]:
     """ multiple coroutines at the same time with async"""
-    data = []
 
-    for i in range(n):
-        n_rand = await wait_random(max_delay)
-        data.append(n_rand)
+    res = await asyncio.gather(*(wait_random(max_delay) for i in range(n)))
 
-    return sorted(data)
+    return sorted(res)
