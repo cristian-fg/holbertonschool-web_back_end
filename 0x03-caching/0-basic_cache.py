@@ -10,7 +10,7 @@ class BasicCache(BaseCaching):
 
     def put(self, key, value):
         """Put a key/value pair into the cache."""
-        if key is not None or value is not None:
+        if key is not None and value is not None:
             self.cache_data[key] = value
 
     def get(self, key):
