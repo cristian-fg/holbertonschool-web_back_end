@@ -1,11 +1,11 @@
 #!/usr/bin/python3
-""" LRU caching
+""" LRU caching data
 """
 from base_caching import BaseCaching
 
 
 class LRUCache(BaseCaching):
-    """LRU cache"""
+    """LRU cache class"""
 
     def __init__(self):
         super().__init__()
