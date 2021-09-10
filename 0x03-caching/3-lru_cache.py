@@ -2,7 +2,6 @@
 """ LRU caching
 """
 from base_caching import BaseCaching
-from collections import OrderedDict
 
 
 class LRUCache(BaseCaching):
@@ -10,24 +9,38 @@ class LRUCache(BaseCaching):
 
     def __init__(self):
         super().__init__()
-        self.ordered_dict = OrderedDict(self.cache_data)
+        self.ordered_key = []
 
     def put(self, key, item):
         """Add a item in the cache"""
         if key is not None and item is not None:
-            self.ordered_dict[key] = item
-            self.ordered_dict.move_to_end(key)
+            if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
+                if key in self.cache_data:
+                    self.cache_data[key] = item
+                    idx = self.ordered_key.index(key)
+                    idx = self.ordered_key.pop(idx)
+                    self.ordered_key.append(idx)
+                else:
+                    self.cache_data[key] = item
+                    idx = self.ordered_key[0]
+                    self.cache_data.pop(idx)
 
-            if len(self.ordered_dict) > BaseCaching.MAX_ITEMS:
-                k, _ = self.ordered_dict.popitem(last=False)
-                print(f"DISCARD: {k}")
-            self.cache_data = dict(self.ordered_dict)
+                    idx_value = self.ordered_key.index(idx)
+                    self.ordered_key.pop(idx_value)
+                    self.ordered_key.append(key)
+                    print(f"DISCARD: {idx}")
+
+            else:
+                self.cache_data[key] = item
+                self.ordered_key.append(key)
 
     def get(self, key):
         """get a item from the cache LRU algorithm"""
         if key is not None:
             get_key = self.cache_data.get(key, None)
             if get_key is not None:
-                self.ordered_dict.move_to_end(key)
+                idx = self.ordered_key.index(key)
+                idx = self.ordered_key.pop(idx)
+                self.ordered_key.append(idx)
 
             return get_key
