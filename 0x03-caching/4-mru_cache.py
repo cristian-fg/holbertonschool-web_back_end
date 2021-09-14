@@ -27,6 +27,7 @@ class MRUCache(BaseCaching):
 
             else:
                 self.cache_data[key] = item
+                self.ordered_key.append(key)
 
     def get(self, key):
         """get a item from the cache MRU algorithm"""
